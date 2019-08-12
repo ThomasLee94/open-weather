@@ -14,9 +14,6 @@ const server = express();
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(express.json());
 
-// CUSTOME MIDDLEWARE
-server.use(checkAuthentication);
-
 // MOUNTING ROUTES TO API PATH
 server.use('/api', routes);
 
