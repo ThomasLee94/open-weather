@@ -1,13 +1,16 @@
 const express = require('express');
-const controller = require('./character.controllers');
-const parcel = require('../../middleware/asyncHandler');
+const controller = require('./weather.controller');
+const parcel = require('../middleware/asyncHandler');
 
 const router = express.Router();
 
-//  GET: RETURNS LIST OF ALL CHARACTERS
-router.get('/', parcel(controller.GetAllCharacters));
+//  GET: weather by city
+router.get('/city', parcel(controller.GetWeatherByCity));
 
-// GET: RETURNS SPECIFIC CHARACTER
-router.get('/:characterId', parcel(controller.GetCharacter));
+// GET: weather by id
+router.get('/:id', controller.GetWeatherById);
+
+// GET: weather by zip code
+router.get('/city', controller.GetWeatherByZip);
 
 module.exports = router;
