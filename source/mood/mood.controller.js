@@ -1,13 +1,13 @@
-const Mood = require("../models/mood");
-// const weather = require("../lib/weather");
+const Mood = require('./mood.model');
+const weather = require('../weather/weather.controller');
 
 // GET: all moods in db
 async function GetAllMoods(req, res) {
   try {
     const moods = await Mood.find();
-    return res.json({ status: "OK", moods });
+    return res.json({ status: 'OK', moods });
   } catch (err) {
-    return res.status(500).json({ status: "FAILED", msg: err.message });
+    return res.status(500).json({ status: 'FAILED', msg: err.message });
   }
 }
 
@@ -16,9 +16,9 @@ async function GetAllMoods(req, res) {
 async function GetMood(req, res) {
   try {
     const mood = await Mood.findById(req.params.moodId);
-    return res.json({ status: "OK", mood });
+    return res.json({ status: 'OK', mood });
   } catch (err) {
-    return res.status(500).json({ status: "FAILED", msg: err.message });
+    return res.status(500).json({ status: 'FAILED', msg: err.message });
   }
 }
 
@@ -27,52 +27,53 @@ async function GetMood(req, res) {
 async function GetMoodByCity(req, res) {
   if (!req.query.city) {
     return res.status(422).json({
-      status: "FAILED",
-      msg: "You didn't provide the query string for the city",
+      status: 'FAILED',
+      msg: 'You did not provide the query string for the city',
     });
   }
   try {
-    const moods = await Mood.find({ city: new RegExp(req.query.city, "i") });
-    return res.json({ status: "OK", moods });
+    const moods = await Mood.find({ city: new RegExp(req.query.city, 'i') });
+    return res.json({ status: 'OK', moods });
   } catch (err) {
-    return res.status(500).json({ status: "FAILED", msg: err.message });
+    return res.status(500).json({ status: 'FAILED', msg: err.message });
   }
 }
 
 //  POST: mood obj about the weather
-// POST /api/v1/moods?city=San Francisco { mood: "Happy"} -> {Mood object}
-async function PostMood(req, res) => {
+// POST /api/v1/moods?city=San Francisco { mood: 'Happy'} -> {Mood object}
+async function PostMood(req, res) {
   // user entered
   if (!req.query.city) {
     return res.status(422).json({
-      status: "FAILED",
-      msg: "You didn't provide the query string for the city",
+      status: 'FAILED',
+      msg: 'You did not provide the query string for the city',
     });
   }
 
   // User entered incorrect data
-  if (!req.body.mood || !(typeof req.body.mood === "string")) {
+  if (!req.body.mood || !(typeof req.body.mood === 'string')) {
     return res.status(403).json({
-      status: "FAILED",
+      status: 'FAILED',
       msg:
-        "You either didn't provide your mood or provided it as something other than a string",
+        'You either didn not provide your mood or provided it as something other than a string',
     });
   }
 
   try {
-    const weatherData = await weather.getWeatherByName(req.query.city);
+    const weatherData = await weather.GetWeatherByCity(req.query.city);
 
     const mood = {
       mood: req.body.mood,
       city: req.query.city,
       weather: weatherData,
     };
+
     const createdMood = await Mood.create(mood);
-    return res.json({ status: "OK", mood: createdMood });
+    return res.json({ status: 'OK', mood: createdMood });
   } catch (err) {
     return res
       .status(err.status || 500)
-      .json({ status: "FAILED", msg: err.message });
+      .json({ status: 'FAILED', msg: err.message });
   }
 };
 
@@ -80,5 +81,5 @@ module.exports = {
   GetAllMoods,
   GetMood,
   GetMoodByCity,
-  PostMood
-}
+  PostMood,
+};

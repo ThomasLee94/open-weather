@@ -15,7 +15,7 @@ async function GetData(url) {
 
 //  GET: weather by city
 // city is zipcode
-async function GetWeatherByCity(city, country = "us") {
+async function GetWeatherByCity(city, country = 'us') {
   try {
     // Obtain the city data by name
     const query = `&q=${city},${country}`;
@@ -39,7 +39,7 @@ async function GetWeatherById(cityId) {
 }
 
 // GET: weather by zipcode
-async function GetWeatherByZip(zip, country = "us") {
+async function GetWeatherByZip(zip, country = 'us') {
   try {
     // Obtain the city data by name
     const query = `&zip=${zip},${country}`;

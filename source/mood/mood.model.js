@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 // Schema for storing the mood of people about the weather
 const moodSchema = new Schema({
@@ -7,4 +7,4 @@ const moodSchema = new Schema({
     weather: Object
 });
 
-module.exports = model("Mood", moodSchema);
+module.exports = model('Mood', moodSchema);
