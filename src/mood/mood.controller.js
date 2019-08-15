@@ -12,7 +12,7 @@ async function GetAllMoods(req, res) {
 }
 
 // GET: mood by id
-// GET /api/v1/mood/:moodId -> {Mood object}
+// GET /api/mood/:moodId -> {Mood object}
 async function GetMood(req, res) {
   try {
     const mood = await Mood.findById(req.params.moodId);
@@ -23,7 +23,7 @@ async function GetMood(req, res) {
 }
 
 //  GET: mood by city
-//  GET /api/v1/moods/city?city=San Francisco -> [{List of mood objects}]
+//  GET /api/moods/city?city=San Francisco -> [{List of mood objects}]
 async function GetMoodByCity(req, res) {
   if (!req.query.city) {
     return res.status(422).json({
@@ -40,7 +40,7 @@ async function GetMoodByCity(req, res) {
 }
 
 //  POST: mood obj about the weather
-// POST /api/v1/moods?city=San Francisco { mood: 'Happy'} -> {Mood object}
+// POST /api/moods?city=San Francisco { mood: 'Happy'} -> {Mood object}
 async function PostMood(req, res) {
   // user entered
   if (!req.query.city) {
